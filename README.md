@@ -1,4 +1,4 @@
-# Skribbl
+# Group_Chat
 For running the Group_Chat application it is necessary to use the following commands:-
 
 1.npm install -D nodemon
