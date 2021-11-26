@@ -1,12 +1,12 @@
 # Skribbl
-server :
+**SERVER :**
   
   npm init
   
   npm i express nodemon socket.io cors
   
   
-client :
+**CLIENT :**
   
   npx create-react-app
   
