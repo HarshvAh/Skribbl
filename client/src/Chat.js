@@ -35,16 +35,20 @@ function Chat({ socket, username, room, setStartGame, setShowChat }) {
     //outputRoomName(room);
     //outputUsers(users);
     //console.log("balh");
-    document.getElementById("users").innerHTML = "";
-    users.forEach((user) => {
+    if(document.getElementById("users")){
+      document.getElementById("users").innerHTML = "";
+    }
+      users.forEach((user) => {
           var s1 = user.username;
           var s2 = user.score;
           var temporarr = {s1,s2};
           setEndGameLeaderboard((list) => [...list, temporarr]);
           //console.log(user);
           const li = document.createElement('li');
-          li.innerText = user.username  +"-"+ user.score;
-          document.getElementById("users").appendChild(li);
+          li.innerText = user.username  +"\t: "+ user.score;
+          if(document.getElementById("users")){
+            document.getElementById("users").appendChild(li);
+          }
         });
   });
 
@@ -76,12 +80,14 @@ function Chat({ socket, username, room, setStartGame, setShowChat }) {
   }
 
   const ticktokTimer = () => {
+    if(timer>0){
     timer = timer - 1;
+    }
     //console.log(timer);
     if (document.getElementById("timer")){
     document.getElementById("timer").innerHTML = timer.toString();
     }
-    if (timer === 0) {
+    if (timer <= 0) {
       endTimer();
     }
   }
@@ -290,13 +296,17 @@ function Chat({ socket, username, room, setStartGame, setShowChat }) {
         endTimer();
       }
       setCurrentDrawingUser(currentUser.username);
-      if(document.getElementById("currentDrawingUser"))
-      {
-        document.getElementById("currentDrawingUser").innerHTML = currentUser.username;
-      }
+      
       clear();
+      setVoted(false);
       setGuesschat(false);
       setCurrentRound(currentRound);
+
+      if(document.getElementById("currentDrawingUser"))
+      {
+        document.getElementById("currentRound").innerHTML = currentRound ;
+        document.getElementById("currentDrawingUser").innerHTML = currentUser.username;
+      }
       
     })
     const gameOver = async () => {
@@ -305,6 +315,7 @@ function Chat({ socket, username, room, setStartGame, setShowChat }) {
         document.getElementById("gameend").innerHTML = "Game Over";
       }
       await new Promise(r => setTimeout(r, 5000));
+      //socket.emit("finalClearScore",(room));
       setStartGame(false);
       
       
@@ -345,9 +356,9 @@ function Chat({ socket, username, room, setStartGame, setShowChat }) {
             var temporarr = {s1,s2};
             setEndGameLeaderboard((list) => [...list, temporarr]);
             const li = document.createElement('li');
-            li.innerText = user.username +"-"+ user.score;
+            li.innerText = user.username +"\t: "+ user.score;
             if (document.getElementById("users")){
-            document.getElementById("users").appendChild(li);
+              document.getElementById("users").appendChild(li);
             }
           });
     });
@@ -383,9 +394,7 @@ function Chat({ socket, username, room, setStartGame, setShowChat }) {
 
   return (
     <div>
-      <div className="gameover">
-        <h1 id="gameend"></h1>
-      </div>
+      
     <div className="timer">
         <h2>Timer</h2>
       <h2 id="timer"></h2>
@@ -407,11 +416,16 @@ function Chat({ socket, username, room, setStartGame, setShowChat }) {
         onMouseLeave={onMouseUp}
         onMouseMove={onMouseMove}
       />
+      <div className="gameover">
+        <h1 id="gameend"></h1>
+      </div>
       <br />
       <div className="brush">
       <h2>Current Drawing User</h2>
     
           <h3 id="currentDrawingUser"></h3>
+        <h2>Current Round</h2>
+        <h3 id="currentRound"></h3>
         <h2> Choose Brush Color </h2>
       <select
         value={setcolor.current}
