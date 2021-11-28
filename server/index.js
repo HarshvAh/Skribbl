@@ -114,7 +114,7 @@ io.on("connection", (socket) => {
           gameDead : true
         });
         //await new Promise(r => setTimeout(r, 2000));
-        clearScores(roomName);
+        //clearScores(roomName);
       
       }
     };
@@ -162,6 +162,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("start_game", async (room) => {
+    //console.log("start_game called");
+    clearScores(room);
+    io.to(room).emit('roomUsers', {
+      room: room,
+      users: getRoomUsers(room)
+    });
     startPlay(room);
     socket.broadcast.to(room).emit("startTheGame");
     //console.log(getCurrentDrawingUser(room));
@@ -204,7 +210,7 @@ io.on("connection", (socket) => {
         io.to(roomName).emit('endGame', {
           gameDead : true
         });
-        clearScores(roomName);
+        //clearScores(roomName);
       }
       //var list = io.sockets.adapter.rooms(roomName) ;
       //var index = list.findIndex(socket => socket.id === user.id) ;
@@ -289,7 +295,7 @@ io.on("connection", (socket) => {
         io.to(roomName).emit('endGame', {
           gameDead : true
         });
-        clearScores(roomName);
+        //clearScores(roomName);
       }
   })
 
@@ -333,7 +339,7 @@ io.on("connection", (socket) => {
         io.to(roomName).emit('endGame', {
           gameDead : true
         });
-        clearScores(roomName);
+        //clearScores(roomName);
       }
     console.log("User Disconnected", socket.id);
   }
