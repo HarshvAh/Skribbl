@@ -10,7 +10,7 @@ const userList = document.getElementById("users");
 function Lobby({ socket, username, room, setShowChat }) {
 
     //var startGame = false;
-    const [subRoundDuration, setSubRoundDuration] = useState("60");
+    //const [subRoundDuration, setSubRoundDuration] = useState("60");
     const [roundCount, setRoundCount] = useState("3");
     const [userInLobby, setUserInLobby] = useState(0);
     const [startGame, setStartGame] = useState(false);
@@ -20,15 +20,19 @@ function Lobby({ socket, username, room, setShowChat }) {
     //outputRoomName(room);
     //outputUsers(users);
     setUserInLobby(users.length);
-    console.log("balh");
-    document.getElementById("room-name").innerText = room;
-    document.getElementById("users").innerHTML = "";
+    //console.log("balh");
+    if(document.getElementById("room-name")){
+      document.getElementById("room-name").innerText = room;
+      document.getElementById("users").innerHTML = "";
+    }
     console.log(users);
     users.forEach((user) => {
           console.log(user);
           const li = document.createElement('li');
-          li.innerText = user.username +"-"+ user.score;
-          document.getElementById("users").appendChild(li);
+          li.innerText = user.username +"\t: "+ user.score;
+          if(document.getElementById("users")){
+            document.getElementById("users").appendChild(li);
+          }
         });
   });
 
