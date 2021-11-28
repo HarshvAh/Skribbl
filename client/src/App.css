@@ -229,7 +229,7 @@ body {
 }
 
 .brush{
-  position : fixed ; top: 400px; left :40px;
+  position : fixed ; top: 280px; left :40px;
   place-items: center;
   background: lightsalmon;
   font-size: 15px;
@@ -249,6 +249,7 @@ body {
 }
 
 .gameover{
+  position: relative;
   font-size: 50px;
   font-weight: bold;
 }
