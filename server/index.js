@@ -75,7 +75,7 @@ io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
   
   io.to(socket.id).emit("show_leaderboard", getPlayers());
-  function addPoints(user){
+  const addPoints = async (user) => {
 
 
     const roomName = user.room ;
@@ -109,12 +109,15 @@ io.on("connection", (socket) => {
       else {
         const usr_ary = getRoomUsers(roomName);
         updateLeaderboard(usr_ary);
-        clearScores(roomName);
+        
         io.to(roomName).emit('endGame', {
           gameDead : true
         });
+        //await new Promise(r => setTimeout(r, 2000));
+        clearScores(roomName);
+      
       }
-    }
+    };
   
   
   }
@@ -197,10 +200,11 @@ io.on("connection", (socket) => {
         const usr_ary = getRoomUsers(roomName);
         updateLeaderboard(usr_ary);
         console.log("votekick1person");
-        clearScores(roomName);
+        
         io.to(roomName).emit('endGame', {
           gameDead : true
         });
+        clearScores(roomName);
       }
       //var list = io.sockets.adapter.rooms(roomName) ;
       //var index = list.findIndex(socket => socket.id === user.id) ;
@@ -281,10 +285,11 @@ io.on("connection", (socket) => {
       else {
         const usr_ary = getRoomUsers(roomName);
         updateLeaderboard(usr_ary);
-        clearScores(roomName);
+        
         io.to(roomName).emit('endGame', {
           gameDead : true
         });
+        clearScores(roomName);
       }
   })
 
@@ -324,10 +329,11 @@ io.on("connection", (socket) => {
       else {
         const usr_ary = getRoomUsers(roomName);
         updateLeaderboard(usr_ary);
-        clearScores(roomName);
+        
         io.to(roomName).emit('endGame', {
           gameDead : true
         });
+        clearScores(roomName);
       }
     console.log("User Disconnected", socket.id);
   }
